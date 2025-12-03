@@ -28,7 +28,6 @@ class ChecksumService:
             else:
                 matched_partners_records.append(record)
 
-        record_hashes = [record.md5_checksum_partner for record in matched_partners_records]
         found_hash_ids: set[int] = self.archival_service.get_by_md5_checksum(matched_partners_records)
 
         for record in matched_partners_records:
