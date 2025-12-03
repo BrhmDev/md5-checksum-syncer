@@ -4,6 +4,8 @@ from service.checksum_service import ChecksumService
 from Scheduler import schedule_interval
 from service.mediahaven_service import MediaHavenService
 from service.meemoo_organisation_service import MeemooOrganisationService
+from service.notification_service import NotificationService
+
 
 def sync_checksums_task():
     DBSession = SessionLocal()
@@ -13,6 +15,7 @@ def sync_checksums_task():
             RecordRepository(DBSession),
             MeemooOrganisationService(),
             MediaHavenService(),
+            NotificationService(),
         )
         checksumService.sync_checksums()
         DBSession.commit()
