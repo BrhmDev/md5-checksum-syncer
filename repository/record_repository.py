@@ -10,4 +10,4 @@ class RecordRepository:
         return self.session.query(Record).filter(
             Record.md5_checksum != None,
             Record.checksum_sync_status == ChecksumStatusEnum.Unknown
-        ).all()
+        ).limit(50_000).all()
