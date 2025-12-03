@@ -1,13 +1,15 @@
 import enum
 
-from sqlalchemy import Column, Integer, String, Boolean, CHAR, Date, Enum
+from sqlalchemy import Column, Integer, String, Date, Enum
 from . import Base
+
 
 class ChecksumStatusEnum(enum.Enum):
     Unknown = 0
     Verified = 1
     NotApplicable = 2
-    Error = 3
+    Mismatch = 3
+    NotInArchive = 4
 
 
 class Record(Base):

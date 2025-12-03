@@ -33,5 +33,5 @@ class ChecksumService:
 
         for record in matched_partners_records:
             record.checksum_sync_status = (
-                ChecksumStatusEnum.Verified if record.row_id in found_hash_ids else ChecksumStatusEnum.Mismatch
+                ChecksumStatusEnum.Verified if record.row_id in found_hash_ids else ChecksumStatusEnum.NotInArchive
             )
