@@ -10,6 +10,9 @@ class ChecksumService:
         self.notification_service = notification_service
 
     def sync_checksums(self):
+        """
+        Check all record md5 hashes that are Unknown and handle appropriately
+        """
         records_to_sync = self.record_repository.get_ready_to_sync()
 
         matched_org_ids = set([record.organisation_id for record in records_to_sync])
