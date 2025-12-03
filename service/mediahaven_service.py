@@ -6,6 +6,6 @@ class MediaHavenService:
 
         hashes_not_in_archive = {"hash_not_in_mediahaven", "hash_not_in_mediahaven2"}
 
-        with_found_hash = filter(lambda r: r.md5_checksum_partner not in hashes_not_in_archive, records)
+        with_found_hash = filter(lambda r: r.md5_checksum not in hashes_not_in_archive, records)
         return set([record.row_id for record in with_found_hash])
 

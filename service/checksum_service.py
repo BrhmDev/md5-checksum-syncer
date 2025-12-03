@@ -12,30 +12,18 @@ class ChecksumService:
     def sync_checksums(self):
         records_to_sync = self.record_repository.get_ready_to_sync()
 
-        records_with_hash_match = []
-        for record in records_to_sync:
-            if record.md5_checksum == record.md5_checksum_partner:
-                records_with_hash_match.append(record)
-            else:
-                record.checksum_sync_status = ChecksumStatusEnum.Mismatch
-                self.notification_service.send_partner_notification(
-                    record.organisation_id, "Warning",
-                    F"Record with id: {record.local_id} checksum provided by partner does not match meemoo's internal checksum"
-                )
-
-        matched_org_ids = set([record.organisation_id for record in records_with_hash_match])
+        matched_org_ids = set([record.organisation_id for record in records_to_sync])
         partner_ids: set[int] = self.organisation_service.get_partners_by_ids(matched_org_ids)
 
-        matched_partners_records: list[Record] = []
-        for record in records_with_hash_match:
+        partner_records: list[Record] = []
+        for record in records_to_sync:
             if record.organisation_id not in partner_ids:
                 record.checksum_sync_status = ChecksumStatusEnum.NotApplicable
             else:
-                matched_partners_records.append(record)
+                partner_records.append(record)
 
-        found_hash_ids: set[int] = self.archival_service.get_by_md5_checksum(matched_partners_records)
-
-        for record in matched_partners_records:
+        found_hash_ids: set[int] = self.archival_service.get_by_md5_checksum(partner_records)
+        for record in partner_records:
             if record.row_id in found_hash_ids:
                 record.checksum_sync_status = ChecksumStatusEnum.Verified
             else:

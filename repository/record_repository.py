@@ -8,6 +8,6 @@ class RecordRepository:
 
     def get_ready_to_sync(self) -> list[Record]:
         return self.session.query(Record).filter(
-            Record.md5_checksum_partner  != None,
+            Record.md5_checksum != None,
             Record.checksum_sync_status == ChecksumStatusEnum.Unknown
         ).all()

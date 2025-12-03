@@ -8,8 +8,7 @@ class ChecksumStatusEnum(enum.Enum):
     Unknown = 0
     Verified = 1
     NotApplicable = 2
-    Mismatch = 3
-    NotInArchive = 4
+    NotInArchive = 3
 
 
 class Record(Base):
@@ -18,8 +17,7 @@ class Record(Base):
     row_id = Column(Integer, primary_key=True)
     organisation_id = Column(String(255))
     local_id = Column(String(255))
-    md5_checksum = Column(String(32))
-    md5_checksum_partner = Column(String(32), nullable=True)
+    md5_checksum = Column(String(32), nullable=True)
     checksum_sync_status = Column(Enum(ChecksumStatusEnum), default=ChecksumStatusEnum.Unknown)
     created_at = Date()
     modified_at = Date()
